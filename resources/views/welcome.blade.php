@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cari Villa Puncak</title>
 
-    <!-- Bootstrap 5 CSS -->
+    <!-- Bootstrap 5 CSS - TYPO FIXED -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Custom CSS -->
     <style>
         /* Mengatur font utama dan background gradasi */
         body {
             font-family: 'Poppins', sans-serif;
-            /* Gradasi yang terinspirasi dari contoh, dari biru muda ke ungu muda */
             background: linear-gradient(135deg, #e0f7fa 0%, #ede7f6 100%);
-            background-attachment: fixed; /* Membuat gradasi tetap saat scroll */
+            background-attachment: fixed;
+            padding-top: 40px;
+            padding-bottom: 40px;
         }
 
         /* Styling untuk judul utama */
@@ -28,82 +29,120 @@
             font-weight: 700;
             font-size: 2.5rem;
             color: #333;
-            margin-top: 40px;
             margin-bottom: 40px;
             text-align: center;
             letter-spacing: 1px;
         }
 
-        /* Custom styling untuk kartu villa */
+        /* Styling untuk kartu villa yang baru */
         .villa-card {
             background-color: #ffffff;
             border: none;
-            border-radius: 15px; /* Membuat sudut lebih tumpul */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Memberi efek bayangan yang lembut */
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 3rem; /* Memberi jarak antar kartu */
+            overflow: hidden;
+            height: 100%; /* Memastikan kartu mengisi tinggi kolom */
+            display: flex;
+            flex-direction: column;
         }
 
         .villa-card:hover {
-            transform: translateY(-10px); /* Efek mengangkat saat kursor di atas */
+            transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
         }
 
-        .villa-card .card-img-top {
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-            height: 300px; /* Menyamakan tinggi gambar */
-            object-fit: cover; /* Agar gambar tidak gepeng */
+        .villa-card-header {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .villa-card-header h3 {
+            color: white;
+            font-weight: 600;
+            font-size: 1.75rem;
+            margin: 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
         
-        .villa-card .card-body {
-            padding: 2rem; /* Memberi ruang di dalam kartu */
+        /* Variasi warna header */
+        .header-green { background-color: #a7d7c5; }
+        .header-blue { background-color: #c1d5e0; }
+        .header-orange { background-color: #f5d5a6; }
+
+        .villa-card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; /* Membuat body kartu mengisi ruang yang tersedia */
         }
 
-        .villa-card .card-title {
-            font-weight: 600;
+        .villa-card-body .card-title {
+            font-weight: 700;
             color: #2c3e50;
-            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
         }
 
-        .villa-card .card-text {
-            color: #7f8c8d;
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
+        .villa-card-body .card-text {
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .villa-card-body .card-text .location-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .villa-card-body .price {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* Wrapper untuk tombol agar bisa didorong ke bawah */
+        .card-actions {
+            margin-top: auto; /* Trik utama untuk mendorong tombol ke bawah */
         }
 
         /* Styling untuk tombol */
-        .btn-detail {
+        .btn-custom {
+            width: 100%;
+            padding: 12px;
+            font-size: 0.95rem;
             font-weight: 600;
-            background-color: transparent;
-            color: #3498db;
-            border: 2px solid #3498db;
-            border-radius: 50px;
-            padding: 10px 25px;
+            border-radius: 8px;
             transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .btn-detail {
+            background-color: #5b6f9a;
+            color: white;
+            margin-bottom: 0.75rem;
         }
 
         .btn-detail:hover {
-            background-color: #3498db;
-            color: #ffffff;
+            background-color: #4a5a8a;
         }
 
         .btn-whatsapp {
-            font-weight: 600;
-            background-color: #25D366;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 12px 30px;
-            transition: all 0.3s ease;
-            display: inline-block; /* Agar bisa diberi margin-top */
-            margin-top: 1rem;
+            background-color: #c8e6c9;
+            color: #2e7d32;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-whatsapp:hover {
+            background-color: #b9d9ba;
         }
 
-        .btn-whatsapp:hover {
-            background-color: #1EAE54;
-            color: white;
-            transform: scale(1.05);
+        .btn-whatsapp .wa-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
         }
     </style>
 </head>
@@ -115,43 +154,89 @@
 
         <!-- Baris untuk menampung kartu-kartu villa -->
         <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
 
-                <!-- Kartu Villa Pertama -->
-                <div class="villa-card text-center">
-                    <img src="https://placehold.co/800x600/a2d2ff/ffffff?text=Foto+Villa+Puncak+Kopi" class="card-img-top" alt="Foto Villa Puncak Kopi">
-                    <div class="card-body">
-                        <h3 class="card-title">Villa Puncak Kopi</h3>
-                        <p class="card-text">
-                            Lokasi : Megamendung, Puncak Bogor<br>
-                            Harga mulai Rp. 1.500.000
-                        </p>
-                        <a href="#" class="btn btn-detail">Lihat Detail Villa Puncak Kopi</a>
-                        <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20untuk%20booking%20Villa%20Puncak%20Kopi" target="_blank" class="btn btn-whatsapp">Tanya-tanya / Booking (langsung WA)</a>
+            <!-- Kartu Villa Puncak Kopi -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="villa-card">
+                    <div class="villa-card-header header-green">
+                        <h3>Villa Puncak Kopi</h3>
+                    </div>
+                    <div class="villa-card-body">
+                        <div>
+                            <h4 class="card-title">Villa Puncak Kopi</h4>
+                            <p class="card-text">
+                                <svg class="location-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                                Megamendung, Puncak Bogor
+                            </p>
+                            <p class="price">Harga mulai <strong>Rp. 1.500.000</strong></p>
+                        </div>
+                        <div class="card-actions">
+                            <a href="#" class="btn btn-custom btn-detail">Lihat Detail Villa</a>
+                            <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20Villa%20Puncak%20Kopi" target="_blank" class="btn btn-custom btn-whatsapp">
+                                <svg class="wa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                Tanya-tanya / Booking (WA)
+                            </a>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Kartu Villa Kedua -->
-                <div class="villa-card text-center">
-                    <img src="https://placehold.co/800x600/bde0fe/ffffff?text=Foto+Villa+Nakodia" class="card-img-top" alt="Foto Villa Nakodia">
-                    <div class="card-body">
-                        <h3 class="card-title">Villa Nakodia</h3>
-                        <p class="card-text">
-                            Lokasi : Cisarua, Puncak Bogor<br>
-                            Harga mulai Rp. 2.000.000
-                        </p>
-                        <a href="#" class="btn btn-detail">Lihat Detail Villa Nakodia</a>
-                        <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20untuk%20booking%20Villa%20Nakodia" target="_blank" class="btn btn-whatsapp">Tanya-tanya / Booking (langsung WA)</a>
-                    </div>
-                </div>
-                
-                <!-- Anda bisa menambahkan kartu villa lainnya di sini -->
-
             </div>
+
+            <!-- Kartu Villa Nakodia -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="villa-card">
+                    <div class="villa-card-header header-blue">
+                        <h3>Villa Nakodia</h3>
+                    </div>
+                    <div class="villa-card-body">
+                        <div>
+                            <h4 class="card-title">Villa Nakodia</h4>
+                            <p class="card-text">
+                                <svg class="location-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                                Cisarua, Puncak Bogor
+                            </p>
+                            <p class="price">Harga mulai <strong>Rp. 1.200.000</strong></p>
+                        </div>
+                        <div class="card-actions">
+                            <a href="#" class="btn btn-custom btn-detail">Lihat Detail Villa</a>
+                            <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20Villa%20Nakodia" target="_blank" class="btn btn-custom btn-whatsapp">
+                                <svg class="wa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                Tanya-tanya / Booking (WA)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kartu Villa Bukit Asri -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="villa-card">
+                    <div class="villa-card-header header-orange">
+                        <h3>Villa Bukit Asri</h3>
+                    </div>
+                    <div class="villa-card-body">
+                        <div>
+                            <h4 class="card-title">Villa Bukit Asri</h4>
+                            <p class="card-text">
+                                <svg class="location-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                                Cipanas, Puncak
+                            </p>
+                            <p class="price">Harga mulai <strong>Rp. 1.800.000</strong></p>
+                        </div>
+                        <div class="card-actions">
+                            <a href="#" class="btn btn-custom btn-detail">Lihat Detail Villa</a>
+                            <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20Villa%20Bukit%20Asri" target="_blank" class="btn btn-custom btn-whatsapp">
+                                <svg class="wa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                Tanya-tanya / Booking (WA)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS (opsional, tapi disarankan) -->
+    <!-- Bootstrap 5 JS - TYPO FIXED -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
