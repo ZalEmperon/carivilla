@@ -7,33 +7,21 @@ use Illuminate\Http\Request;
 
 class VillaController extends Controller
 {
-    public function index()
+    // public function dashboardVilla()
+    // {
+    //     return view('home');
+    // }
+
+    public function showListVilla()
     {
-        return redirect('/adminproduk');
+        $dataVilla = Villa::select('id', 'nama', 'slug','lokasi', 'harga_weekday','harga_weekend', 'foto_slider')->get();
+        return view('list_villa', compact('dataVilla'));
     }
 
-    public function create()
+    public function showDetailVilla($slug)
     {
-    }
-
-    public function store(Request $request)
-    {
-    }
-
-    public function show(Villa $villa)
-    {
-    }
-
-
-    public function edit(Villa $villa)
-    {
-    }
-
-    public function update(Request $request, Villa $villa)
-    {
-    }
-
-    public function destroy(Villa $villa)
-    {
+        $dataVilla = Villa::where('slug', $slug)->first();
+        // dd($dataVilla);
+        return view('detail_villa', compact('dataVilla'));
     }
 }
