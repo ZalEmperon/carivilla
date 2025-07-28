@@ -70,7 +70,7 @@
                                     <a href="{{ route('admin.villas.edit', $villa->id) }}" class="btn info-button btn-sm me-2">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <button type="button" class="btn danger-button btn-sm" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-villa-id="{{ $villa->id }}" data-villa-name="{{ $villa->nama }}">
+                                    <button type="button" class="btn danger-button btn-sm" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-villa-id="{{ $villa->id }}" data-villa-name="{{ $villa->nama }}" data-delete-url="{{ route('admin.villas.destroy', $villa->slug) }}">
                                         <i class="fas fa-trash-alt"></i> Hapus
                                     </button>
                                 </td>
@@ -111,18 +111,17 @@
 
 @push('scripts')
 <script>
-    // Script untuk mengisi data modal konfirmasi hapus
     var deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
     deleteConfirmationModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget; // Button that triggered the modal
-        var villaId = button.getAttribute('data-villa-id'); // Extract info from data-* attributes
+        var button = event.relatedTarget;
         var villaName = button.getAttribute('data-villa-name');
+        var deleteUrl = button.getAttribute('data-delete-url'); // Ambil URL dari atribut
 
         var modalTitle = deleteConfirmationModal.querySelector('#villaToDeleteName');
         var deleteForm = deleteConfirmationModal.querySelector('#deleteVillaForm');
 
         modalTitle.textContent = villaName;
-        deleteForm.action = '/admin/villas/' + villaId; // Set form action dynamically
+        deleteForm.action = deleteUrl; // Set form action secara dinamis
     });
 </script>
 @endpush

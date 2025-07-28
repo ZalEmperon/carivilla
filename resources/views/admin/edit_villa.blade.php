@@ -47,7 +47,7 @@
 
             <form action="{{ route('admin.villas.update', $villa->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @method('PUT') {{-- Penting untuk metode UPDATE --}}
+                @method('PUT')
 
                 <div class="mb-3">
                     <label for="nama" class="form-label">Nama Villa</label>

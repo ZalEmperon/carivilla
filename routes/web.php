@@ -22,3 +22,28 @@ Route::middleware(['admin','auth'])->group(function () {
     Route::delete('/admin-delete/{slug}', [VillaController::class, 'index']);
     Route::get('/logout', [AuthController::class, 'logout']);
 });
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    
+    // Rute untuk menampilkan Dashboard
+    Route::get('/dashboard', [AdminController::class, 'dashboardAdmin'])->name('dashboard');
+
+    // --- GRUP UNTUK FITUR CRUD VILLA ---
+
+    // 1. CREATE: Menampilkan form tambah villa
+    Route::get('/villas/create', function() {
+        return view('admin.add_villa');
+    })->name('villas.create');
+
+    // 2. STORE: Menyimpan villa baru dari form
+    Route::post('/villas', [AdminController::class, 'addVillaAdmin'])->name('villas.store');
+
+    // 3. EDIT: Menampilkan form edit villa yang sudah ada
+    Route::get('/villas/{villa}/edit', [AdminController::class, 'edit'])->name('villas.edit');
+
+    // 4. UPDATE: Memperbarui data villa dari form edit
+    Route::put('/villas/{villa}', [AdminController::class, 'editVillaAdmin'])->name('villas.update');
+
+    // 5. DELETE: Menghapus sebuah villa
+    Route::delete('/villas/{slug}', [AdminController::class, 'deleteVillaAdmin'])->name('villas.destroy');
+});

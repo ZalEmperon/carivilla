@@ -82,6 +82,10 @@ class AdminController extends Controller
         return redirect('/admin-dashboard');
     }
 
+    public function edit(Villa $villa)
+    {
+        return view('admin.edit_villa', compact('villa'));
+    }
     public function editVillaAdmin(Request $request)
     {
         $villa = Villa::where('slug', $request->slug)->first();
