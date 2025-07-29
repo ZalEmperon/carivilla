@@ -18,12 +18,11 @@
                     </ul>
                 </div>
             @endif
-
-            <form method="POST" action="{{ route('admin.login') }}">
+            <form method="POST" action="/login">
                 @csrf
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required autofocus>
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required autofocus>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>

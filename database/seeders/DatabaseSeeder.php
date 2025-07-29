@@ -7,7 +7,7 @@ use App\Models\Villa;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -135,7 +135,12 @@ class DatabaseSeeder extends Seeder
             ],
         ];
         foreach ($data as $villa) {
-            \App\Models\Villa::create($villa);
+            Villa::create($villa);
         }
+        User::create([
+            'username' => "Gato",
+            'password' => Hash::make("gatovilla"),
+            'role' => 'admin',
+        ]);
     }
 }

@@ -21,7 +21,6 @@ class VillaController extends Controller
     public function showDetailVilla($slug)
     {
         $dataVilla = Villa::where('slug', $slug)->first();
-        // dd($dataVilla);
         return view('detail_villa', compact('dataVilla'));
     }
 }

@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Villa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
     public function dashboardAdmin()
     {
-        $dataVilla = Villa::select('id', 'nama', 'slug','lokasi', 'harga_weekday','harga_weekend', 'foto_slider')->get();
+        $dataVilla = Villa::select('id', 'nama', 'slug', 'lokasi', 'harga_weekday', 'harga_weekend', 'foto_slider')->get();
         return view('admin.dashboard', compact('dataVilla'));
     }
 
@@ -82,38 +83,62 @@ class AdminController extends Controller
         return redirect('/admin-dashboard');
     }
 
+    public function editVillaAdminPage($slug)
+    {
+        $dataVilla = Villa::where('slug', $slug)->first();
+        return view('admin.edit_villa', compact('dataVilla'));
+    }
+
     public function editVillaAdmin(Request $request)
     {
-        $villa = Villa::where('slug', $request->slug)->first();
-        if (!$villa) {
+        $dataVilla = Villa::where('slug', $request->slug)->first();
+        if (!$dataVilla) {
             return response()->json(['error' => 'Villa not found.'], 404);
         }
 
-        $villa->update([
-            'nama' => $request->nama ?? $villa->nama,
-            'lokasi' => $request->lokasi ?? $villa->lokasi,
-            'harga_weekday' => $request->harga_weekday ?? $villa->harga_weekday,
-            'harga_weekend' => $request->harga_weekend ?? $villa->harga_weekend,
-            'nego_weekday' => $request->nego_weekday ?? $villa->nego_weekday,
-            'nego_weekend' => $request->nego_weekend ?? $villa->nego_weekend,
-            'kapasitas' => $request->kapasitas ?? $villa->kapasitas,
-            'kamar_tidur' => $request->kamar_tidur ?? $villa->kamar_tidur,
-            'kamar_mandi' => $request->kamar_mandi ?? $villa->kamar_mandi,
-            'foto_slider' => $request->foto_slider ? json_encode($request->foto_slider) : $villa->foto_slider,
-            'fasilitas' => $request->fasilitas ? json_encode($request->fasilitas) : $villa->fasilitas,
-            'map_embed' => $request->map_embed ?? $villa->map_embed,
-            'nomor_wa' => $request->nomor_wa ?? $villa->nomor_wa,
+        $dataVilla->update([
+            'nama' => $request->nama ?? $dataVilla->nama,
+            'lokasi' => $request->lokasi ?? $dataVilla->lokasi,
+            'harga_weekday' => $request->harga_weekday ?? $dataVilla->harga_weekday,
+            'harga_weekend' => $request->harga_weekend ?? $dataVilla->harga_weekend,
+            'nego_weekday' => $request->nego_weekday ?? $dataVilla->nego_weekday,
+            'nego_weekend' => $request->nego_weekend ?? $dataVilla->nego_weekend,
+            'kapasitas' => $request->kapasitas ?? $dataVilla->kapasitas,
+            'kamar_tidur' => $request->kamar_tidur ?? $dataVilla->kamar_tidur,
+            'kamar_mandi' => $request->kamar_mandi ?? $dataVilla->kamar_mandi,
+            'foto_slider' => $request->foto_slider ? json_encode($request->foto_slider) : $dataVilla->foto_slider,
+            'fasilitas' => $request->fasilitas ? json_encode($request->fasilitas) : $dataVilla->fasilitas,
+            'map_embed' => $request->map_embed ?? $dataVilla->map_embed,
+            'nomor_wa' => $request->nomor_wa ?? $dataVilla->nomor_wa,
         ]);
         return redirect('/admin-dashboard')->with(['Villa updated successfully'], 201);
     }
 
     public function deleteVillaAdmin($slug)
     {
-        $villa = Villa::where('slug', $slug)->first();
-        if (!$villa) {
+        $dataVilla = Villa::where('slug', $slug)->first();
+        if (!$dataVilla) {
             return redirect('/admin-dashboard')->withErrors(['Villa not found.'], 404);
         }
-        $villa->delete();
+        if (is_array($dataVilla->foto_slider)) {
+            foreach ($dataVilla->foto_slider as $foto) {
+                $villaImagePath = public_path('storage\\uploads\\villas\\' . $foto);
+                if (File::exists($villaImagePath)) {
+                    File::delete($villaImagePath);
+                }
+            }
+        }
+        if (is_array($dataVilla->fasilitas)) {
+            foreach ($dataVilla->fasilitas as $fasilitas) {
+                if (!empty($fasilitas['image'])) {
+                    $fasilitasImagePath = public_path('storage\\uploads\\fasilitas\\' . $fasilitas['image']);
+                    if (File::exists($fasilitasImagePath)) {
+                        File::delete($fasilitasImagePath);
+                    }
+                }
+            }
+        }
+        $dataVilla->delete();
         return redirect('/admin-dashboard')->with(['Villa deleted successfully.'], 201);
     }
 }
