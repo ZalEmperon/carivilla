@@ -61,49 +61,53 @@
         transition: transform 10s linear;
         transform: scale(1.05);
     }
-    
     .villa-main-image {
-        width: 100%;
-        height: 450px;
+        height: 500px;
         object-fit: cover;
-        transform: scale(1);
-        transition: transform 0.5s ease;
     }
 
-    .villa-content {
-        padding: 2.5rem 3rem;
-    }
-
+    /* -- Konten Utama -- */
+    .villa-header { margin-bottom: 2rem; }
     .villa-title {
         font-weight: 700;
         font-size: 2.5rem;
-        color: #2c3e50;
+        color: var(--text-primary);
     }
-
     .villa-location {
         font-size: 1.1rem;
-        color: #7f8c8d;
-        margin-bottom: 1.5rem;
+        color: var(--text-muted);
+        font-weight: 400;
     }
-
-    .info-section h3 {
+    
+    /* -- Kartu Info & Booking -- */
+    .info-card {
+        background-color: var(--bg-card);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #EAEFF4;
+    }
+    .booking-card {
+        position: sticky;
+        top: 2rem;
+    }
+    
+    /* -- Elemen di dalam kartu -- */
+    .section-title {
         font-weight: 600;
-        font-size: 1.5rem;
-        color: #34495e;
+        font-size: 1.4rem;
+        color: var(--text-primary);
         margin-bottom: 1.5rem;
-        position: relative;
-        padding-bottom: 0.75rem;
     }
-
-    .info-section h3::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 50px;
-        height: 3px;
-        background: linear-gradient(90deg, #00c6ff, #0072ff);
-        border-radius: 3px;
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 2 kolom */
+        gap: 1.5rem;
+    }
+    .info-box {
+        background: var(--bg-main);
+        padding: 1rem;
+        border-radius: 0.75rem;
     }
 
     .info-item {
@@ -150,166 +154,146 @@
     }
     
     .map-container {
-        border-radius: 15px;
+        border-radius: 1rem;
         overflow: hidden;
-        height: 400px;
-        border: 1px solid #dee2e6;
+        height: 350px;
     }
     .map-container iframe { width: 100%; height: 100%; border: 0; }
     
-    .booking-card {
-        position: sticky;
-        top: 20px;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    .price-display {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        text-align: center;
+        margin-bottom: 1rem;
     }
-    
-    .whatsapp-button {
-        background: linear-gradient(45deg, #25d366, #2ecc71);
-        color: white;
-        font-weight: 600;
-        padding: 1rem;
-        border-radius: 12px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.1rem;
-        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-        animation: pulse 2s infinite;
-    }
-    
-    .whatsapp-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 7px 20px rgba(37, 211, 102, 0.4);
-        animation: none;
+    .price-display small {
+        font-size: 0.9rem;
+        font-weight: 400;
+        color: var(--text-muted);
     }
 
-    @keyframes pulse {
-        0% { box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
-        50% { box-shadow: 0 4px 25px rgba(37, 211, 102, 0.5); }
-        100% { box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+    .whatsapp-button {
+        display: flex; align-items: center; justify-content: center;
+        width: 100%; padding: 0.85rem;
+        border-radius: 0.75rem; text-decoration: none;
+        font-weight: 600; transition: all 0.25s ease;
+        background-color: var(--accent-primary);
+        border: 2px solid var(--accent-primary);
+        color: white;
+    }
+    .whatsapp-button:hover {
+        background-color: #2F6DE8;
+        border-color: #2F6DE8;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(58, 125, 255, 0.25);
     }
 </style>
 @endpush
 
 @section('content')
 <main class="container py-4">
-    <div class="villa-detail-container">
-        <div class="position-relative">
-            <a href="{{ url('/') }}" class="back-button" title="Kembali ke Beranda" data-aos="fade-right" data-aos-delay="300">
-                <i class="bi bi-arrow-left"></i>
-            </a>
+    <div class="villa-carousel-container" data-aos="fade-up">
+        @if (!empty($dataVilla->foto_slider) && count($dataVilla->foto_slider) > 0)
+            <div id="villaCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach ($dataVilla->foto_slider as $key => $foto)
+                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                            <img src="{{ asset('storage/uploads/villas/' . $foto) }}" class="d-block w-100 villa-main-image" alt="Foto {{ $dataVilla->nama }}">
+                        </div>
+                    @endforeach
+                </div>
+                @if (count($dataVilla->foto_slider) > 1)
+                    <button class="carousel-control-prev" type="button" data-bs-target="#villaCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#villaCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </button>
+                @endif
+            </div>
+        @else
+            <img src="https://placehold.co/1200x500/F4F7F9/1A253C?text=Gambar+Tidak+Tersedia" class="villa-main-image" alt="Gambar tidak tersedia">
+        @endif
+    </div>
 
-            {{-- Image Carousel --}}
-            @if (!empty($dataVilla->foto_slider) && count($dataVilla->foto_slider) > 0)
-                <div id="villaCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        @foreach ($dataVilla->foto_slider as $key => $foto)
-                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                <img src="{{ asset('storage/uploads/villas/' . $foto) }}" class="d-block w-100 villa-main-image" alt="Foto {{ $dataVilla->nama }}">
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="villa-header" data-aos="fade-up" data-aos-delay="100">
+                <h1 class="villa-title">{{ $dataVilla->nama }}</h1>
+                <p class="villa-location"><i class="bi bi-geo-alt-fill me-1"></i>{{ $dataVilla->lokasi }}</p>
+            </div>
+
+            <div class="info-card" data-aos="fade-up" data-aos-delay="200">
+                <h3 class="section-title">Informasi Utama</h3>
+                <div class="info-grid">
+                    <div class="info-box">
+                        <span class="label">Kapasitas</span>
+                        <span class="value">{{ $dataVilla->kapasitas }} Orang</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="label">Kamar Tidur</span>
+                        <span class="value">{{ $dataVilla->kamar_tidur }}</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="label">Kamar Mandi</span>
+                        <span class="value">{{ $dataVilla->kamar_mandi }}</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="label">Nego</span>
+                        <span class="value">{{ $dataVilla->nego_weekday ? 'Bisa' : 'Tidak' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            @if (!empty($dataVilla->fasilitas) && count($dataVilla->fasilitas) > 0)
+                <div class="info-card" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="section-title">Fasilitas</h3>
+                    <div class="facility-grid">
+                        @foreach ($dataVilla->fasilitas as $fasilitas)
+                            <div class="facility-item">
+                                <img src="{{ asset('storage/uploads/fasilitas/' . $fasilitas['foto']) }}" alt="{{ $fasilitas['nama'] }}">
+                                <p>{{ $fasilitas['nama'] }}</p>
                             </div>
                         @endforeach
                     </div>
-                    @if (count($dataVilla->foto_slider) > 1)
-                        <button class="carousel-control-prev" type="button" data-bs-target="#villaCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#villaCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    @endif
                 </div>
-            @else
-                <img src="https://placehold.co/1200x600/E0F7FA/333?text=Gambar+Tidak+Tersedia" class="villa-main-image" alt="Gambar tidak tersedia">
             @endif
         </div>
 
-        <div class="villa-content">
-            <div class="row">
-                <div class="col-lg-8">
-                    <h1 class="villa-title" data-aos="fade-up">{{ $dataVilla->nama }}</h1>
-                    <p class="villa-location" data-aos="fade-up" data-aos-delay="100"><i class="bi bi-geo-alt-fill me-2"></i>{{ $dataVilla->lokasi }}</p>
-
-                    <section class="info-section" data-aos="fade-up" data-aos-delay="200">
-                        <h3><i class="bi bi-info-circle-fill me-2"></i>Informasi Villa</h3>
-                        <div class="info-item">
-                            <span class="label">Kapasitas Orang</span>
-                            <span class="value">{{ $dataVilla->kapasitas }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">Jumlah Kamar Tidur</span>
-                            <span class="value">{{ $dataVilla->kamar_tidur }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">Jumlah Kamar Mandi</span>
-                            <span class="value">{{ $dataVilla->kamar_mandi }}</span>
-                        </div>
-                    </section>
-
-                    @if (!empty($dataVilla->fasilitas) && count($dataVilla->fasilitas) > 0)
-                        <section class="info-section" data-aos="fade-up" data-aos-delay="300">
-                            <h3 class="mt-3"><i class="bi bi-stars me-2"></i>Fasilitas</h3>
-                            <div class="row g-3">
-                                @foreach ($dataVilla->fasilitas as $fasilitas)
-                                    <div class="col-lg-3 col-md-4 col-6">
-                                        <div class="facility-item justify-content-start px-2" data-aos="fade-up" data-aos-delay="{{ 100 + ($loop->index * 50) }}">
-                                            <img class="rounded-3" src="{{ asset('storage/uploads/fasilitas/' . $fasilitas['foto']) }}" alt="{{ $fasilitas['nama'] }}">
-                                            <p>{{ $fasilitas['nama'] }}</p>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </section>
-                    @endif
-
-                    @if($dataVilla->map_embed)
-                        <section class="info-section" data-aos="fade-up" data-aos-delay="400">
-                            <h3 class="mt-3"><i class="bi bi-map-fill me-2"></i>Peta Lokasi</h3>
-                            <div class="map-container mb-4">
-                                {!! $dataVilla->map_embed !!}
-                            </div>
-                        </section>
-                    @endif
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card booking-card" data-aos="fade-left" data-aos-delay="500">
-                        <div class="card-body">
-                            <h4 class="card-title text-center mb-3">Harga & Booking</h4>
-                            <div class="info-item border-0">
-                                <span class="label">Harga Weekday</span>
-                                <span class="value text-success">Rp. {{ number_format($dataVilla->harga_weekday, 0, ',', '.') }}</span>
-                            </div>
-                            <div class="info-item border-secondary">
-                                <span class="label">Nego Weekday</span>
-                                <span class="value">{{ $dataVilla->nego_weekday ? 'Bisa' : 'Tidak Bisa' }}</span>
-                            </div>
-                            <div class="info-item border-0">
-                                <span class="label">Harga Weekend</span>
-                                <span class="value text-success">Rp. {{ number_format($dataVilla->harga_weekend, 0, ',', '.') }}</span>
-                            </div>
-                            <div class="info-item border-0">
-                                <span class="label">Nego Weekend</span>
-                                <span class="value">{{ $dataVilla->nego_weekend ? 'Bisa' : 'Tidak Bisa' }}</span>
-                            </div>
-                            
-                            @php
-                                $whatsapp_message = urlencode('Halo, saya tertarik dengan villa ' . $dataVilla->nama . '. Apakah masih tersedia?');
-                                $whatsapp_link = 'https://wa.me/' . $dataVilla->nomor_wa . '?text=' . $whatsapp_message;
-                            @endphp
-                            <a href="{{ $whatsapp_link }}" class="whatsapp-button mt-4" target="_blank">
-                                <i class="bi bi-whatsapp me-2"></i> Booking via WhatsApp
-                            </a>
-                        </div>
+        <div class="col-lg-4">
+            <div class="booking-card" data-aos="fade-left" data-aos-delay="400">
+                <div class="info-card">
+                    <h3 class="section-title text-center">Harga per Malam</h3>
+                    <div class="price-display">
+                        Rp {{ number_format($dataVilla->harga_weekday, 0, ',', '.') }}
+                        <small>/ Weekday</small>
                     </div>
+                     <div class="price-display">
+                        Rp {{ number_format($dataVilla->harga_weekend, 0, ',', '.') }}
+                        <small>/ Weekend</small>
+                    </div>
+                    
+                    @php
+                        $whatsapp_message = urlencode('Halo, saya tertarik dengan villa ' . $dataVilla->nama . '. Apakah masih tersedia?');
+                        $whatsapp_link = 'https://wa.me/' . $dataVilla->nomor_wa . '?text=' . $whatsapp_message;
+                    @endphp
+                    <a href="{{ $whatsapp_link }}" class="whatsapp-button mt-3" target="_blank">
+                        <i class="bi bi-whatsapp me-2"></i> Booking via WhatsApp
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+    
+    @if($dataVilla->map_embed)
+        <div class="info-card mt-4" data-aos="fade-up">
+            <h3 class="section-title">Peta Lokasi</h3>
+            <div class="map-container">
+                {!! $dataVilla->map_embed !!}
+            </div>
+        </div>
+    @endif
 </main>
 @endsection
 
