@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Villa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
 
 class AdminController extends Controller
 {
@@ -39,7 +41,7 @@ class AdminController extends Controller
         if ($request->hasFile('foto_slider')) {
             foreach ($request->file('foto_slider') as $image) {
                 $filename = 'villa' . time() . '_' . Str::random(5) . '.' . $image->extension();
-                $image->storeAs('images/villas/', $filename, 'public');
+                $image->storeAs('uploads/villas/', $filename, 'public');
                 $fotoSlider[] = $filename;
             }
         }
@@ -48,7 +50,7 @@ class AdminController extends Controller
         foreach ($request->fasilitas as $fasilitas) {
             $image = $fasilitas['image'];
             $filename = 'fasilitas' . time() . '_' . Str::random(5) . '.' . $image->extension();
-            $image->storeAs('images/fasilitas/', $filename, 'public');
+            $image->storeAs('uploads/fasilitas/', $filename, 'public');
 
             $fasilitasArray[] = [
                 'nama' => $fasilitas['name'],
@@ -75,8 +77,8 @@ class AdminController extends Controller
             'kapasitas' => $request->kapasitas,
             'kamar_tidur' => $request->kamar_tidur,
             'kamar_mandi' => $request->kamar_mandi,
-            'foto_slider' => json_encode($fotoSlider),
-            'fasilitas' => json_encode($fasilitasArray),
+            'foto_slider' => $fotoSlider,
+            'fasilitas' => $fasilitasArray,
             'map_embed' => $request->map_embed,
             'nomor_wa' => $request->nomor_wa,
         ]);
@@ -93,7 +95,51 @@ class AdminController extends Controller
     {
         $dataVilla = Villa::where('slug', $request->slug)->first();
         if (!$dataVilla) {
-            return response()->json(['error' => 'Villa not found.'], 404);
+            return back()->with('error', 'Villa not found.');
+        }
+
+        // Handle foto_slider update (only if new files are provided)
+        $fotoSlider = $dataVilla->foto_slider;
+        if ($request->hasFile('foto_slider')) {
+            // Delete old slider images
+            foreach ($fotoSlider as $oldImage) {
+                Storage::disk('public')->delete('/uploads/villas/' . $oldImage);
+            }
+
+            // Store new images
+            $fotoSlider = [];
+            foreach ($request->file('foto_slider') as $file) {
+                $filename = 'villa' . time() . '_' . Str::random(5) . '.' . $file->extension();
+                $file->storeAs('uploads/villas', $filename, 'public');
+                $fotoSlider[] = $filename;
+            }
+        }
+
+        // Handle fasilitas update (only if new data is provided)
+        $fasilitas = $dataVilla->fasilitas;
+        if ($request->fasilitas) {
+            $newFasilitas = [];
+            foreach ($request->fasilitas as $key => $item) {
+                // Keep existing image if no new image is uploaded
+                $image = $fasilitas[$key]['foto'] ?? null;
+
+                if (isset($item['foto']) && $item['foto'] instanceof UploadedFile) {
+                    if ($image) {
+                        Storage::disk('public')->delete('/uploads/fasilitas/' . $image);
+                    }
+
+                    // Store new image
+                    $filename = 'fasilitas' . time() . '_' . Str::random(5) . '.' . $item['foto']->extension();
+                    $item['foto']->storeAs('uploads/fasilitas', $filename, 'public');
+                    $image = $filename;
+                }
+
+                $newFasilitas[] = [
+                    'nama' => $item['nama'],
+                    'foto' => $image
+                ];
+            }
+            $fasilitas = $newFasilitas;
         }
 
         $dataVilla->update([
@@ -101,17 +147,18 @@ class AdminController extends Controller
             'lokasi' => $request->lokasi ?? $dataVilla->lokasi,
             'harga_weekday' => $request->harga_weekday ?? $dataVilla->harga_weekday,
             'harga_weekend' => $request->harga_weekend ?? $dataVilla->harga_weekend,
-            'nego_weekday' => $request->nego_weekday ?? $dataVilla->nego_weekday,
-            'nego_weekend' => $request->nego_weekend ?? $dataVilla->nego_weekend,
+            'nego_weekday' => $request->boolean('nego_weekday'),
+            'nego_weekend' => $request->boolean('nego_weekend'),
             'kapasitas' => $request->kapasitas ?? $dataVilla->kapasitas,
             'kamar_tidur' => $request->kamar_tidur ?? $dataVilla->kamar_tidur,
             'kamar_mandi' => $request->kamar_mandi ?? $dataVilla->kamar_mandi,
-            'foto_slider' => $request->foto_slider ? json_encode($request->foto_slider) : $dataVilla->foto_slider,
-            'fasilitas' => $request->fasilitas ? json_encode($request->fasilitas) : $dataVilla->fasilitas,
+            'foto_slider' => $fotoSlider,
+            'fasilitas' => $fasilitas,
             'map_embed' => $request->map_embed ?? $dataVilla->map_embed,
             'nomor_wa' => $request->nomor_wa ?? $dataVilla->nomor_wa,
         ]);
-        return redirect('/admin-dashboard')->with(['Villa updated successfully'], 201);
+
+        return redirect('/admin-dashboard')->with('success', 'Villa updated successfully');
     }
 
     public function deleteVillaAdmin($slug)
@@ -122,9 +169,9 @@ class AdminController extends Controller
         }
         if (is_array($dataVilla->foto_slider)) {
             foreach ($dataVilla->foto_slider as $foto) {
-                $villaImagePath = public_path('storage\\uploads\\villas\\' . $foto);
-                if (File::exists($villaImagePath)) {
-                    File::delete($villaImagePath);
+                $dataVillaImagePath = public_path('storage\\uploads\\villas\\' . $foto);
+                if (File::exists($dataVillaImagePath)) {
+                    File::delete($dataVillaImagePath);
                 }
             }
         }
