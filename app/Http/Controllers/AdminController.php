@@ -114,6 +114,14 @@ class AdminController extends Controller
         return redirect('/admin-dashboard')->with(['Villa updated successfully'], 201);
     }
 
+    // Method ini berfungsi untuk mengambil data 1 villa
+    // dan menampilkannya di halaman form edit.
+    public function edit(Villa $villa)
+    {
+        // 'compact('villa')' mengirim data villa ke view
+        return view('admin.edit_villa', compact('villa'));
+    }
+
     public function deleteVillaAdmin($slug)
     {
         $dataVilla = Villa::where('slug', $slug)->first();
