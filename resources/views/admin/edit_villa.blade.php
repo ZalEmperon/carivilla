@@ -51,21 +51,18 @@
           @method('PUT')
           <input type="hidden" id="slug" name="slug" value="{{ old('slug', $dataVilla->slug) }}">
 
-          <!-- Nama Villa -->
           <div class="mb-3">
             <label for="nama" class="form-label">Nama Villa</label>
             <input type="text" class="form-control" id="nama" name="nama"
               value="{{ old('nama', $dataVilla->nama) }}" required>
           </div>
 
-          <!-- Lokasi -->
           <div class="mb-3">
             <label for="lokasi" class="form-label">Lokasi</label>
             <input type="text" class="form-control" id="lokasi" name="lokasi"
               value="{{ old('lokasi', $dataVilla->lokasi) }}" required>
           </div>
 
-          <!-- Harga -->
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="harga_weekday" class="form-label">Harga Weekday (Rp)</label>
@@ -79,7 +76,6 @@
             </div>
           </div>
 
-          <!-- Nego -->
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="nego_weekday" class="form-label">Bisa Nego Weekday?</label>
@@ -97,7 +93,6 @@
             </div>
           </div>
 
-          <!-- Kapasitas dan kamar -->
           <div class="row">
             <div class="col-md-4 mb-3">
               <label for="kapasitas" class="form-label">Kapasitas</label>
@@ -116,20 +111,17 @@
             </div>
           </div>
 
-          <!-- Embed Map -->
           <div class="mb-3">
             <label for="map_embed" class="form-label">Embed Map</label>
             <textarea class="form-control" id="map_embed" name="map_embed" rows="3" required>{{ old('map_embed', $dataVilla->map_embed) }}</textarea>
           </div>
 
-          <!-- Nomor WA -->
           <div class="mb-3">
             <label for="nomor_wa" class="form-label">Nomor WhatsApp</label>
             <input type="text" class="form-control" id="nomor_wa" name="nomor_wa"
               value="{{ old('nomor_wa', $dataVilla->nomor_wa) }}" placeholder="6281234567890" required>
           </div>
 
-          <!-- Current Foto Slider Display -->
           <div class="mb-3">
             <label class="form-label">Current Slider Images</label>
             <div class="row">
@@ -146,14 +138,12 @@
             </div>
           </div>
 
-          <!-- New Foto Slider Upload -->
           <div class="mb-3">
             <label for="foto_slider" class="form-label">Tambah Foto Slider Baru (bisa pilih banyak)</label>
             <input type="file" class="form-control" id="foto_slider" name="foto_slider[]" multiple
               accept="image/*">
           </div>
 
-          <!-- Fasilitas -->
           <div class="mb-3">
             <label class="form-label">Fasilitas</label>
             <div id="fasilitas-wrapper">
@@ -196,7 +186,6 @@
   <script>
     let fasilitasIndex = {{ count($dataVilla->fasilitas) }};
 
-    // Add new facility field
     document.getElementById('addFasilitas').addEventListener('click', function() {
       const wrapper = document.getElementById('fasilitas-wrapper');
       const newItem = document.createElement('div');
@@ -215,25 +204,21 @@
       fasilitasIndex++;
     });
 
-    // Remove facility field
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('remove-fasilitas')) {
         e.target.closest('.fasilitas-item').remove();
       }
 
-      // Handle image removal
       if (e.target.classList.contains('remove-image')) {
         const image = e.target.dataset.image;
         const type = e.target.dataset.type;
 
-        // Add hidden input to track removed images
         const input = document.createElement('input');
         input.type = 'hidden';
         input.name = `removed_${type}_images[]`;
         input.value = image;
         document.querySelector('form').appendChild(input);
 
-        // Remove the image element
         e.target.closest('.col-md-2').remove();
       }
     });

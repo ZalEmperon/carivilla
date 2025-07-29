@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
-{{-- Judul halaman akan dinamis sesuai nama villa --}}
 @section('title', 'Detail ' . $dataVilla->nama)
 
 @push('styles')
@@ -9,7 +8,6 @@
 <style>
     body {
         font-family: 'Poppins', sans-serif;
-        /* PERUBAHAN: Latar belakang gradasi abu-abu yang lebih modern */
         background: linear-gradient(180deg, #f5f7fa 0%, #c3cfe2 100%);
     }
 
@@ -44,7 +42,6 @@
         transform: scale(1.1);
     }
     
-    /* PERUBAHAN: Tombol slider dibuat lebih hidup dan modern */
     .carousel-control-prev, .carousel-control-next {
         background: rgba(0, 0, 0, 0.3);
         width: 50px;
@@ -142,7 +139,6 @@
     .facility-item img {
         width: 115px;
         height: 115px;
-        /* object-fit: contain; */
         margin-bottom: 0.25rem;
     }
     

@@ -14,7 +14,7 @@ class VillaController extends Controller
 
     public function showListVilla()
     {
-        $dataVilla = Villa::select('id', 'nama', 'slug','lokasi', 'harga_weekday','harga_weekend', 'foto_slider')->get();
+        $dataVilla = Villa::all();
         return view('list_villa', compact('dataVilla'));
     }
 

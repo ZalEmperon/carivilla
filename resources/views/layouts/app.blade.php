@@ -1,244 +1,182 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title', 'CARIVILLAPUNCAK')</title>
-  <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    .main-header {
-      background-color: #0056b3;
-      color: #fff;
-      padding: 1.5rem 0;
-      text-align: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'CARIVILLAPUNCAK')</title>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- PALET WARNA UTAMA: COOL MINIMALIST --- */
+        :root {
+            --bg-main: #F4F7F9;
+            --bg-card: #FFFFFF;
+            --text-primary: #1A253C;
+            --text-muted: #8A94A6;
+            --accent-primary: #3A7DFF;
+            --border-color: #EAEFF4;
+        }
 
-    .main-header h1 {
-      margin: 0;
-      font-size: 2.8em;
-      font-weight: bold;
-    }
+        /* --- LATAR BELAKANG DINAMIS --- */
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #f4f7f9, #f7f8fa, #eef2f5, #f4f7f9);
+            background-size: 400% 400%;
+            animation: gradient-animation 20s ease infinite;
+            color: var(--text-primary);
+        }
 
-    .main-header a {
-      color: #fff;
-      text-decoration: none;
-    }
+        /* --- HEADER & FOOTER --- */
+        .main-header {
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .main-header h1 { margin: 0; font-size: 1.8em; font-weight: 600; letter-spacing: 1px; }
+        .main-header a { color: var(--text-primary); text-decoration: none; }
+        
+        .main-footer {
+            background-color: var(--bg-main);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 1.5rem 0;
+            font-size: 0.9em;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+        }
 
-    .main-footer {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 25px 0;
-      font-size: 0.95em;
-      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-      margin-top: 50px;
-    }
+        /* --- TEMA BARU UNTUK ADMIN PANEL --- */
+        .admin-sidebar {
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+        }
+        .admin-sidebar .nav-link {
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease-in-out;
+        }
+        .admin-sidebar .nav-link:hover {
+            color: var(--accent-primary);
+            background-color: #f7faff;
+        }
+        .admin-sidebar .nav-link.active {
+            color: var(--accent-primary);
+            border-left-color: var(--accent-primary);
+            background-color: #f7faff;
+        }
+        .admin-sidebar .nav-link i { width: 20px; text-align: center; }
 
-    /* General buttons */
-    .button {
-      display: block;
-      width: 100%;
-      padding: 12px 15px;
-      text-align: center;
-      border-radius: 8px;
-      text-decoration: none;
-      margin-top: 10px;
-      font-weight: bold;
-      transition: background-color 0.3s ease, transform 0.1s ease;
-      font-size: 1.05em;
-    }
+        .admin-content {
+            padding: 2rem;
+        }
+        .admin-content h1, .admin-content h2 {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
 
-    .button:active {
-      transform: translateY(1px);
-    }
+        /* Tombol Admin */
+        .btn-admin-primary {
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn-admin-primary:hover {
+            background-color: #2F6DE8;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(58, 125, 255, 0.2);
+        }
+        .btn-admin-secondary {
+            background-color: #f0f3f6; color: var(--text-muted); border: none; padding: 0.6rem 1.2rem;
+            font-weight: 600; border-radius: 0.5rem; transition: background-color 0.3s ease;
+        }
+        .btn-admin-secondary:hover { background-color: #e4e9ee; color: var(--text-primary); }
 
-    .primary-button {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-    }
+        /* Tabel Admin */
+        .admin-table {
+            background-color: var(--bg-card);
+            border-collapse: collapse;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(138, 148, 166, 0.1);
+        }
+        .admin-table th, .admin-table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+        .admin-table thead {
+            background-color: #f9fafb;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .admin-table th {
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .admin-table tbody tr:not(:last-child) {
+            border-bottom: 1px solid var(--border-color);
+        }
 
-    .primary-button:hover {
-      background-color: #0056b3;
-      color: #fff;
-    }
-
-    .whatsapp-button {
-      background-color: #25d366;
-      color: #fff;
-      border: none;
-    }
-
-    .whatsapp-button:hover {
-      background-color: #1da851;
-      color: #fff;
-    }
-
-    .danger-button {
-      background-color: #dc3545;
-      color: #fff;
-      border: none;
-    }
-
-    .danger-button:hover {
-      background-color: #c82333;
-      color: #fff;
-    }
-
-    .success-button {
-      background-color: #28a745;
-      color: #fff;
-      border: none;
-    }
-
-    .success-button:hover {
-      background-color: #218838;
-      color: #fff;
-    }
-
-    .info-button {
-      background-color: #17a2b8;
-      color: #fff;
-      border: none;
-    }
-
-    .info-button:hover {
-      background-color: #138496;
-      color: #fff;
-    }
-
-    /* Specific styles for villa items */
-    .villa-item {
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .villa-item:hover {
-      transform: translateY(-7px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    .villa-image {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      display: block;
-      border-bottom: 1px solid #eee;
-    }
-
-    .villa-info {
-      padding: 15px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .villa-info h2 {
-      margin-top: 0;
-      color: #007bff;
-      font-size: 1.8em;
-      margin-bottom: 10px;
-    }
-
-    .villa-info .location {
-      font-size: 1em;
-      color: #666;
-      margin-bottom: 8px;
-    }
-
-    .villa-info .price {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #d9534f;
-      margin-bottom: 15px;
-    }
-
-    .villa-info .price-value {
-      color: #000;
-    }
-
-    /* Admin specific styles */
-    .admin-sidebar {
-      background-color: #343a40;
-      color: #fff;
-      padding: 20px;
-      min-height: calc(100vh - 100px);
-    }
-
-    .admin-sidebar .nav-link {
-      color: #adb5bd;
-      padding: 10px 15px;
-      border-radius: 5px;
-      transition: background-color 0.2s;
-    }
-
-    .admin-sidebar .nav-link:hover,
-    .admin-sidebar .nav-link.active {
-      background-color: #495057;
-      color: #fff;
-    }
-
-    .admin-content {
-      padding: 20px;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .main-header h1 {
-        font-size: 2em;
-      }
-
-      .villa-image {
-        height: 200px;
-      }
-
-      .villa-info h2 {
-        font-size: 1.5em;
-      }
-
-      .button {
-        padding: 10px 12px;
-        font-size: 0.95em;
-      }
-
-      .admin-sidebar {
-        min-height: auto;
-      }
-    }
-  </style>
-  @stack('styles')
+        /* Form Admin */
+        .form-control, .form-select {
+            background-color: #f9fafb;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: var(--bg-card);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(58, 125, 255, 0.15);
+        }
+    </style>
+    @stack('styles')
 </head>
-
 <body>
-  <header class="main-header">
-    <div class="container">
-      <h1><a href="/">CARIVILLAPUNCAK</a></h1>
-    </div>
-  </header>
+    @auth
+        {{-- Jika sedang login, tampilkan layout dengan atau tanpa sidebar --}}
+        @if(Request::is('admin*') || Request::is('login'))
+             @yield('content')
+        @else
+             {{-- Layout untuk halaman publik --}}
+            <header class="main-header">
+                <h1><a href="/">CARIVILLAPUNCAK</a></h1>
+            </header>
+            @yield('content')
+            <footer class="main-footer">
+                <p>&copy; {{ date('Y') }} CARIVILLAPUNCAK. All rights reserved.</p>
+            </footer>
+        @endif
+    @else
+        {{-- Jika belum login, tampilkan layout publik biasa --}}
+        <header class="main-header">
+            <h1><a href="/">CARIVILLAPUNCAK</a></h1>
+        </header>
+        @yield('content')
+        <footer class="main-footer">
+            <p>&copy; {{ date('Y') }} CARIVILLAPUNCAK. All rights reserved.</p>
+        </footer>
+    @endauth
 
-  @yield('content')
-
-  <footer class="main-footer">
-    <div class="container">
-      <p>&copy; {{ date('Y') }} CARIVILLAPUNCAK. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script src="{{ asset('js/bootstrap.js') }}"></script>
-  <script src="https://example.com/fontawesome/v7.0.0/js/fontawesome.js" data-auto-replace-svg="nest"></script>
-  <script src="https://example.com/fontawesome/v7.0.0/js/solid.js"></script>
-  <script src="https://example.com/fontawesome/v7.0.0/js/brands.js"></script>
-  @stack('scripts')
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    @stack('scripts')
 </body>
-
 </html>

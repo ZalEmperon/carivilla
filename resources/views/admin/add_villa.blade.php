@@ -49,19 +49,15 @@
         <form action="/admin-add" method="POST" enctype="multipart/form-data">
           @csrf
 
-          <!-- Nama Villa -->
           <div class="mb-3">
             <label for="nama" class="form-label">Nama Villa</label>
             <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" required>
           </div>
 
-          <!-- Lokasi -->
           <div class="mb-3">
             <label for="lokasi" class="form-label">Lokasi</label>
             <input type="text" class="form-control" id="lokasi" name="lokasi" value="{{ old('lokasi') }}" required>
           </div>
-
-          <!-- Harga -->
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="harga_weekday" class="form-label">Harga Weekday (Rp)</label>
@@ -75,7 +71,6 @@
             </div>
           </div>
 
-          <!-- Nego -->
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="nego_weekday" class="form-label">Bisa Nego Weekday?</label>
@@ -93,7 +88,6 @@
             </div>
           </div>
 
-          <!-- Kapasitas dan kamar -->
           <div class="row">
             <div class="col-md-4 mb-3">
               <label for="kapasitas" class="form-label">Kapasitas</label>
@@ -112,27 +106,23 @@
             </div>
           </div>
 
-          <!-- Embed Map -->
           <div class="mb-3">
             <label for="map_embed" class="form-label">Embed Map</label>
             <textarea class="form-control" id="map_embed" name="map_embed" rows="3" required>{{ old('map_embed') }}</textarea>
           </div>
 
-          <!-- Nomor WA -->
           <div class="mb-3">
             <label for="nomor_wa" class="form-label">Nomor WhatsApp</label>
             <input type="text" class="form-control" id="nomor_wa" name="nomor_wa" value="{{ old('nomor_wa') }}"
               placeholder="6281234567890" required>
           </div>
 
-          <!-- Multiple Foto Slider -->
           <div class="mb-3">
             <label for="foto_slider" class="form-label">Foto Slider (bisa pilih banyak)</label>
             <input type="file" class="form-control" id="foto_slider" name="foto_slider[]" multiple
               accept="image/*">
           </div>
 
-          <!-- Fasilitas -->
           <div class="mb-3">
             <label class="form-label">Fasilitas</label>
             <div id="fasilitas-wrapper">
@@ -152,7 +142,6 @@
             <button type="button" class="btn btn-secondary btn-sm mt-2" id="addFasilitas">+ Tambah Fasilitas</button>
           </div>
 
-          <!-- Submit -->
           <button type="submit" class="btn btn-primary">Simpan Villa</button>
           <a href="/admin-dashboard" class="btn btn-secondary ms-2">Batal</a>
         </form>
