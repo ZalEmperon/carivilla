@@ -140,10 +140,10 @@
     }
     
     .facility-item img {
-        width: 50px;
-        height: 50px;
-        object-fit: contain;
-        margin-bottom: 0.75rem;
+        width: 115px;
+        height: 115px;
+        /* object-fit: contain; */
+        margin-bottom: 0.25rem;
     }
     
     .facility-item p {
@@ -245,7 +245,7 @@
                             <span class="value">{{ $dataVilla->kapasitas }}</span>
                         </div>
                         <div class="info-item">
-                            <span class="label">Jumlah Kamar</span>
+                            <span class="label">Jumlah Kamar Tidur</span>
                             <span class="value">{{ $dataVilla->kamar_tidur }}</span>
                         </div>
                         <div class="info-item">
@@ -256,12 +256,12 @@
 
                     @if (!empty($dataVilla->fasilitas) && count($dataVilla->fasilitas) > 0)
                         <section class="info-section" data-aos="fade-up" data-aos-delay="300">
-                            <h3><i class="bi bi-stars me-2"></i>Fasilitas</h3>
+                            <h3 class="mt-3"><i class="bi bi-stars me-2"></i>Fasilitas</h3>
                             <div class="row g-3">
                                 @foreach ($dataVilla->fasilitas as $fasilitas)
                                     <div class="col-lg-3 col-md-4 col-6">
-                                        <div class="facility-item" data-aos="fade-up" data-aos-delay="{{ 100 + ($loop->index * 50) }}">
-                                            <img src="{{ asset('storage/uploads/fasilitas/' . $fasilitas['foto']) }}" alt="{{ $fasilitas['nama'] }}">
+                                        <div class="facility-item justify-content-start px-2" data-aos="fade-up" data-aos-delay="{{ 100 + ($loop->index * 50) }}">
+                                            <img class="rounded-3" src="{{ asset('storage/uploads/fasilitas/' . $fasilitas['foto']) }}" alt="{{ $fasilitas['nama'] }}">
                                             <p>{{ $fasilitas['nama'] }}</p>
                                         </div>
                                     </div>
@@ -272,8 +272,8 @@
 
                     @if($dataVilla->map_embed)
                         <section class="info-section" data-aos="fade-up" data-aos-delay="400">
-                            <h3><i class="bi bi-map-fill me-2"></i>Peta Lokasi</h3>
-                            <div class="map-container">
+                            <h3 class="mt-3"><i class="bi bi-map-fill me-2"></i>Peta Lokasi</h3>
+                            <div class="map-container mb-4">
                                 {!! $dataVilla->map_embed !!}
                             </div>
                         </section>
@@ -284,19 +284,19 @@
                     <div class="card booking-card" data-aos="fade-left" data-aos-delay="500">
                         <div class="card-body">
                             <h4 class="card-title text-center mb-3">Harga & Booking</h4>
-                            <div class="info-item">
+                            <div class="info-item border-0">
                                 <span class="label">Harga Weekday</span>
                                 <span class="value text-success">Rp. {{ number_format($dataVilla->harga_weekday, 0, ',', '.') }}</span>
                             </div>
-                            <div class="info-item">
-                                <span class="label">Harga Weekend</span>
-                                <span class="value text-success">Rp. {{ number_format($dataVilla->harga_weekend, 0, ',', '.') }}</span>
-                            </div>
-                            <div class="info-item">
+                            <div class="info-item border-secondary">
                                 <span class="label">Nego Weekday</span>
                                 <span class="value">{{ $dataVilla->nego_weekday ? 'Bisa' : 'Tidak Bisa' }}</span>
                             </div>
-                            <div class="info-item">
+                            <div class="info-item border-0">
+                                <span class="label">Harga Weekend</span>
+                                <span class="value text-success">Rp. {{ number_format($dataVilla->harga_weekend, 0, ',', '.') }}</span>
+                            </div>
+                            <div class="info-item border-0">
                                 <span class="label">Nego Weekend</span>
                                 <span class="value">{{ $dataVilla->nego_weekend ? 'Bisa' : 'Tidak Bisa' }}</span>
                             </div>
