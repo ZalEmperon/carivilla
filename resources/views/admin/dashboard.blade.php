@@ -44,10 +44,10 @@
                   <td>{{ $villa->lokasi }}</td>
                   <td>Rp. {{ number_format($villa->harga_weekday, 0, ',', '.') }}</td>
                   <td>
-                    <a href="/admin-edit/{{ $villa->slug }}" class="btn info-button btn-sm me-2">
+                    <a href="/admin-edit/{{ $villa->slug }}" class="btn btn-info btn-sm me-2 mb-1">
                       <i class="fas fa-edit"></i> Edit
                     </a>
-                    <button type="button" class="btn danger-button btn-sm" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-danger btn-sm mb-1" data-bs-toggle="modal"
                       data-bs-target="#deleteConfirmationModal" data-villa-id="{{ $villa->id }}"
                       data-villa-name="{{ $villa->nama }}" data-villa-slug="{{ $villa->slug }}">
                       <i class="fas fa-trash-alt"></i> Hapus

@@ -103,11 +103,11 @@
             <div id="fasilitas-wrapper">
               <div class="fasilitas-item row mb-2">
                 <div class="col-md-6">
-                  <input type="text" name="fasilitas[0][name]" class="form-control" placeholder="Nama fasilitas"
+                  <input type="text" name="fasilitas[0][nama]" class="form-control" placeholder="Nama fasilitas"
                     required>
                 </div>
                 <div class="col-md-5">
-                  <input type="file" name="fasilitas[0][image]" class="form-control" accept="image/*" required>
+                  <input type="file" name="fasilitas[0][foto]" class="form-control" accept="image/*" required>
                 </div>
                 <div class="col-md-1">
                   <button type="button" class="btn btn-danger btn-sm remove-fasilitas">&times;</button>
@@ -131,15 +131,16 @@
     let fasilitasIndex = 1;
 
     document.getElementById('addFasilitas').addEventListener('click', function() {
+    console.log("Nemo")
       const wrapper = document.getElementById('fasilitas-wrapper');
       const newItem = document.createElement('div');
       newItem.classList.add('fasilitas-item', 'row', 'mb-2');
       newItem.innerHTML = `
       <div class="col-md-6">
-        <input type="text" name="fasilitas[${fasilitasIndex}][name]" class="form-control" placeholder="Nama fasilitas" required>
+        <input type="text" name="fasilitas[${fasilitasIndex}][nama]" class="form-control" placeholder="Nama fasilitas" required>
       </div>
       <div class="col-md-5">
-        <input type="file" name="fasilitas[${fasilitasIndex}][image]" class="form-control" accept="image/*" required>
+        <input type="file" name="fasilitas[${fasilitasIndex}][foto]" class="form-control" accept="image/*" required>
       </div>
       <div class="col-md-1">
         <button type="button" class="btn btn-danger btn-sm remove-fasilitas">&times;</button>

@@ -22,9 +22,9 @@
         position: sticky;
         top: 48px;
       }
-      .sidebar {
+      /* .sidebar {
         height: 100vh;
-      }
+      } */
 
       .navbar-search {
         display: block;
@@ -115,6 +115,7 @@
       display: block !important
     }
   </style>
+  @stack('styles')
 </head>
 
 <body>
@@ -158,7 +159,7 @@
                   <a class="nav-link d-flex align-items-center gap-2" href="/admin-dashboard">
                     <form action="/logout" method="POST">
                       @csrf
-                      <button type="submit" class="btn btn-danger">Logout</button>
+                      <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill h5 me-3"></i>Logout</button>
                     </form>
                   </a>
                 </li>
@@ -172,6 +173,7 @@
     </div>
   </div>
   <script src="{{ asset('js/bootstrap.js') }}"></script>
+  @stack('scripts')
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js"
     integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp" crossorigin="anonymous"
     class="astro-vvvwv3sm"></script>

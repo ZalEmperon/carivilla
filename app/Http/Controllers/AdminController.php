@@ -44,8 +44,8 @@ class AdminController extends Controller
             'kamar_mandi' => 'required|integer',
             'foto_slider.*' => 'image|mimes:jpeg,png,jpg|max:2048',
             'fasilitas' => 'required|array',
-            'fasilitas.*.name' => 'required|string',
-            'fasilitas.*.image' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'fasilitas.*.nama' => 'required|string',
+            'fasilitas.*.foto' => 'image|mimes:jpeg,png,jpg|max:2048',
             'map_embed' => 'required|string',
             'nomor_wa' => 'required|string|max:20',
         ]);
@@ -61,7 +61,7 @@ class AdminController extends Controller
 
         $fasilitasArray = [];
         foreach ($request->fasilitas as $fasilitas) {
-            $image = $fasilitas['image'];
+            $image = $fasilitas['foto'];
             $filename = 'fasilitas' . time() . '_' . Str::random(5) . '.' . $image->extension();
             $image->storeAs('uploads/fasilitas/', $filename, 'public');
 
@@ -189,8 +189,8 @@ class AdminController extends Controller
         }
         if (is_array($dataVilla->fasilitas)) {
             foreach ($dataVilla->fasilitas as $fasilitas) {
-                if (!empty($fasilitas['image'])) {
-                    $fasilitasImagePath = public_path('storage\\uploads\\fasilitas\\' . $fasilitas['image']);
+                if (!empty($fasilitas['foto'])) {
+                    $fasilitasImagePath = public_path('storage\\uploads\\fasilitas\\' . $fasilitas['foto']);
                     if (File::exists($fasilitasImagePath)) {
                         File::delete($fasilitasImagePath);
                     }
