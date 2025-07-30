@@ -1,36 +1,11 @@
-@extends('layouts.app')
+@extends('admin.layouts.app_admin')
 
 @section('title', 'Edit Villa: ' . $dataVilla->nama)
 
 @section('content')
   <div class="container-fluid">
     <div class="row">
-      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark admin-sidebar collapse">
-        <div class="position-sticky pt-3">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link" href="/admin-dashboard">
-                <i class="fas fa-fw fa-tachometer-alt me-2"></i> Dashboard
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/admin-add">
-                <i class="fas fa-fw fa-plus-circle me-2"></i> Tambah Villa
-              </a>
-            </li>
-            <li class="nav-item">
-              <form action="/logout" method="POST" class="d-inline">
-                @csrf
-                <button type="submit" class="nav-link btn btn-link text-start text-danger" style="width: 100%;">
-                  <i class="fas fa-fw fa-sign-out-alt me-2"></i> Logout
-                </button>
-              </form>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 admin-content">
+      <main class="col-md-9 w-100 col-lg-10 px-md-4 admin-content">
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Edit Villa</h1>
@@ -192,10 +167,10 @@
       newItem.classList.add('fasilitas-item', 'row', 'mb-2');
       newItem.innerHTML = `
         <div class="col-md-5">
-            <input type="text" name="fasilitas[${fasilitasIndex}][name]" class="form-control" placeholder="Nama fasilitas" required>
+            <input type="text" name="fasilitas[${fasilitasIndex}][nama]" class="form-control" placeholder="Nama fasilitas" required>
         </div>
         <div class="col-md-5">
-            <input type="file" name="fasilitas[${fasilitasIndex}][image]" class="form-control" accept="image/*" required>
+            <input type="file" name="fasilitas[${fasilitasIndex}][foto]" class="form-control" accept="image/*" required>
         </div>
         <div class="col-md-2">
             <button type="button" class="btn btn-danger btn-sm remove-fasilitas">&times;</button>

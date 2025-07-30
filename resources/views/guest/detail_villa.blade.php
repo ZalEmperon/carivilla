@@ -1,10 +1,9 @@
-@extends('layouts.app')
+@extends('guest.layouts.app')
 
 {{-- Judul halaman akan dinamis sesuai nama villa --}}
 @section('title', 'Detail ' . $dataVilla->nama)
 
 @push('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <style>
     body {
@@ -203,7 +202,7 @@
     <div class="villa-detail-container">
         <div class="position-relative">
             <a href="{{ url('/') }}" class="back-button" title="Kembali ke Beranda" data-aos="fade-right" data-aos-delay="300">
-                <i class="bi bi-arrow-left"></i>
+                <i class="bi bi-arrow-left text-white h5 m-0"></i>
             </a>
 
             {{-- Image Carousel --}}
@@ -241,15 +240,15 @@
                     <section class="info-section" data-aos="fade-up" data-aos-delay="200">
                         <h3><i class="bi bi-info-circle-fill me-2"></i>Informasi Villa</h3>
                         <div class="info-item">
-                            <span class="label">Kapasitas Orang</span>
+                            <span class="label"><i class="bi bi-people-fill h5 me-2"></i>Kapasitas Orang</span>
                             <span class="value">{{ $dataVilla->kapasitas }}</span>
                         </div>
                         <div class="info-item">
-                            <span class="label">Jumlah Kamar Tidur</span>
+                            <span class="label"><i class="bi bi-backpack4-fill h5 me-2"></i>Jumlah Kamar Tidur</span>
                             <span class="value">{{ $dataVilla->kamar_tidur }}</span>
                         </div>
                         <div class="info-item">
-                            <span class="label">Jumlah Kamar Mandi</span>
+                            <span class="label"><i class="bi bi-droplet-half h5 me-2"></i>Jumlah Kamar Mandi</span>
                             <span class="value">{{ $dataVilla->kamar_mandi }}</span>
                         </div>
                     </section>

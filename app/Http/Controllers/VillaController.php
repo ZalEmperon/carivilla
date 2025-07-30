@@ -15,12 +15,12 @@ class VillaController extends Controller
     public function showListVilla()
     {
         $dataVilla = Villa::all();
-        return view('list_villa', compact('dataVilla'));
+        return view('guest.list_villa', compact('dataVilla'));
     }
 
     public function showDetailVilla($slug)
     {
         $dataVilla = Villa::where('slug', $slug)->first();
-        return view('detail_villa', compact('dataVilla'));
+        return view('guest.detail_villa', compact('dataVilla'));
     }
 }

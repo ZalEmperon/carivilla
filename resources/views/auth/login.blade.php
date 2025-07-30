@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('guest.layouts.app')
 
 @section('title', 'Admin Login')
 
 @section('content')
 <main class="container py-5 d-flex justify-content-center align-items-center" style="min-height: 70vh;">
     <div class="card shadow" style="width: 100%; max-width: 400px;">
-        <div class="card-header bg-primary text-white text-center">
+        <div class="card-header bg-success text-white text-center">
             <h3>Login Admin</h3>
         </div>
         <div class="card-body">
@@ -29,7 +29,7 @@
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn primary-button">Login</button>
+                    <button type="submit" class="btn btn-success">Login</button>
                 </div>
             </form>
         </div>

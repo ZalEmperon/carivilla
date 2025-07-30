@@ -6,20 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('title', 'CARIVILLAPUNCAK')</title>
   <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <style>
     /* --- PALET WARNA UTAMA: COOL MINIMALIST --- */
     :root {
       --bg-main: #F4F7F9;
       --bg-card: #FFFFFF;
-      --text-primary: #1A253C;
-      --text-muted: #8A94A6;
-      --accent-primary: #3A7DFF;
+      --text-primary: #315E26;
+      --accent-primary: #7A9D79;
+      --accent-secondary: #AECDAF;
+      --text-muted: #8a9a8a;
       --border-color: #EAEFF4;
+      --bg-container: #FFFFFF;
     }
 
     /* --- LATAR BELAKANG DINAMIS --- */
@@ -45,7 +46,6 @@
       color: var(--text-primary);
     }
 
-    /* --- HEADER & FOOTER --- */
     .main-header {
       background-color: var(--bg-card);
       color: var(--text-primary);
@@ -206,10 +206,11 @@
   </header>
   @yield('content')
   <footer class="main-footer">
-    <p>&copy; {{ date('Y') }} CARIVILLAPUNCAK. All rights reserved.</p>
+    <p>&copy; 2025 CARIVILLAPUNCAK. All rights reserved.</p>
   </footer>
 
   <script src="{{ asset('js/bootstrap.js') }}"></script>
+  <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" class="astro-vvvwv3sm"></script>
   @stack('scripts')
 </body>
 

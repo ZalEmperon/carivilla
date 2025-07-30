@@ -6,8 +6,8 @@ use App\Models\Villa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
-use Illuminate\Http\UploadedFile;
 
 class AdminController extends Controller
 {
@@ -19,6 +19,19 @@ class AdminController extends Controller
 
     public function addVillaAdmin(Request $request)
     {
+        $publicStorageLink = public_path('storage');
+        if (!is_link($publicStorageLink)) {
+            Artisan::call('storage:link');
+        }
+        if (!Storage::disk('public')->exists('uploads')) {
+            Storage::disk('public')->makeDirectory('uploads');
+        }
+        if (!Storage::disk('public')->exists('uploads/villas')) {
+            Storage::disk('public')->makeDirectory('uploads/villas');
+        }
+        if (!Storage::disk('public')->exists('uploads/fasilitas')) {
+            Storage::disk('public')->makeDirectory('uploads/fasilitas');
+        }
         $request->validate([
             'nama' => 'required|string',
             'lokasi' => 'required|string',
@@ -53,7 +66,7 @@ class AdminController extends Controller
             $image->storeAs('uploads/fasilitas/', $filename, 'public');
 
             $fasilitasArray[] = [
-                'nama' => $fasilitas['name'],
+                'nama' => $fasilitas['nama'],
                 'foto' => $filename
             ];
         }
@@ -98,15 +111,12 @@ class AdminController extends Controller
             return back()->with('error', 'Villa not found.');
         }
 
-        // Handle foto_slider update (only if new files are provided)
         $fotoSlider = $dataVilla->foto_slider;
         if ($request->hasFile('foto_slider')) {
-            // Delete old slider images
             foreach ($fotoSlider as $oldImage) {
                 Storage::disk('public')->delete('/uploads/villas/' . $oldImage);
             }
 
-            // Store new images
             $fotoSlider = [];
             foreach ($request->file('foto_slider') as $file) {
                 $filename = 'villa' . time() . '_' . Str::random(5) . '.' . $file->extension();
@@ -115,24 +125,21 @@ class AdminController extends Controller
             }
         }
 
-        // Handle fasilitas update (only if new data is provided)
         $fasilitas = $dataVilla->fasilitas;
         if ($request->fasilitas) {
             $newFasilitas = [];
             foreach ($request->fasilitas as $key => $item) {
-                // Keep existing image if no new image is uploaded
                 $image = $fasilitas[$key]['foto'] ?? null;
 
-                if (isset($item['foto']) && $item['foto'] instanceof UploadedFile) {
-                    if ($image) {
-                        Storage::disk('public')->delete('/uploads/fasilitas/' . $image);
-                    }
-
-                    // Store new image
-                    $filename = 'fasilitas' . time() . '_' . Str::random(5) . '.' . $item['foto']->extension();
-                    $item['foto']->storeAs('uploads/fasilitas', $filename, 'public');
-                    $image = $filename;
+                // if (isset($item['foto']) && $item['foto'] instanceof UploadedFile) {
+                if ($image) {
+                    Storage::disk('public')->delete('/uploads/fasilitas/' . $image);
                 }
+
+                $filename = 'fasilitas' . time() . '_' . Str::random(5) . '.' . $item['foto']->extension();
+                $item['foto']->storeAs('uploads/fasilitas', $filename, 'public');
+                $image = $filename;
+                // }
 
                 $newFasilitas[] = [
                     'nama' => $item['nama'],
@@ -161,11 +168,8 @@ class AdminController extends Controller
         return redirect('/admin-dashboard')->with('success', 'Villa updated successfully');
     }
 
-    // Method ini berfungsi untuk mengambil data 1 villa
-    // dan menampilkannya di halaman form edit.
     public function edit(Villa $villa)
     {
-        // 'compact('villa')' mengirim data villa ke view
         return view('admin.edit_villa', compact('villa'));
     }
 

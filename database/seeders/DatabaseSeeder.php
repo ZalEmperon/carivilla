@@ -7,15 +7,27 @@ use App\Models\Villa;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
+        $publicStorageLink = public_path('storage');
+        if (!is_link($publicStorageLink)) {
+            Artisan::call('storage:link');
+        }
+        if (!Storage::disk('public')->exists('uploads')) {
+            Storage::disk('public')->makeDirectory('uploads');
+        }
+        if (!Storage::disk('public')->exists('uploads/villas')) {
+            Storage::disk('public')->makeDirectory('uploads/villas');
+        }
+        if (!Storage::disk('public')->exists('uploads/fasilitas')) {
+            Storage::disk('public')->makeDirectory('uploads/fasilitas');
+        }
         $imageSourceDir = database_path('seeders\\images');
         $fotoSliderImages = [
             'mawar1.jpg',

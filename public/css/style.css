@@ -2,5 +2,5 @@
 
 * {
   font-family: "Poppins", sans-serif;
-  text-decoration: none;
+  text-decoration: none !important;
 }
