@@ -6,14 +6,23 @@
 @push('styles')
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <style>
+    /* PERUBAHAN UTAMA: Color Palette "Earthy Harmony" */
+    :root {
+        --bg-main: #E2DFDA;        /* Off-white */
+        --text-primary: #3B6255;   /* Hijau Tua */
+        --accent-primary: #8BA49A; /* Hijau Sage */
+        --accent-secondary: #D2C49E;/* Emas/Beige */
+        --accent-light: #f3f5f4;
+        --bg-card: #FFFFFF;
+    }
+
     body {
         font-family: 'Poppins', sans-serif;
-        /* PERUBAHAN: Latar belakang gradasi abu-abu yang lebih modern */
-        background: linear-gradient(180deg, #f5f7fa 0%, #c3cfe2 100%);
+        background-color: var(--bg-main); /* Latar diubah */
     }
 
     .villa-detail-container {
-        background-color: #ffffff;
+        background-color: var(--bg-card);
         border-radius: 15px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 20px rgba(0, 0, 0, 0.08);
         overflow: hidden;
@@ -22,177 +31,120 @@
     }
     
     .back-button {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(59, 98, 85, 0.5); /* Warna hijau tua transparan */
         color: white;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        z-index: 10;
+        /* ... (properti lain tetap sama) ... */
+        position:absolute;top:20px;left:20px;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .3s ease;z-index:10
     }
 
     .back-button:hover {
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: var(--text-primary);
         transform: scale(1.1);
     }
     
-    /* PERUBAHAN: Tombol slider dibuat lebih hidup dan modern */
     .carousel-control-prev, .carousel-control-next {
-        background: rgba(0, 0, 0, 0.3);
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        top: 50%;
-        transform: translateY(-50%);
-        transition: background-color 0.3s ease;
+        background: rgba(59, 98, 85, 0.3); /* Latar tombol slider disesuaikan */
+        /* ... (properti lain tetap sama) ... */
+        width:50px;height:50px;border-radius:50%;top:50%;transform:translateY(-50%);transition:background-color .3s ease
     }
     .carousel-control-prev { left: 15px; }
     .carousel-control-next { right: 15px; }
     .carousel-control-prev:hover, .carousel-control-next:hover {
-        background: rgba(0, 0, 0, 0.6);
+        background: rgba(59, 98, 85, 0.6);
     }
 
-    .carousel-item.active .villa-main-image {
-        transition: transform 10s linear;
-        transform: scale(1.05);
-    }
-    
-    .villa-main-image {
-        width: 100%;
-        height: 450px;
-        object-fit: cover;
-        transform: scale(1);
-        transition: transform 0.5s ease;
-    }
+    .carousel-item.active .villa-main-image { transition: transform 10s linear; transform: scale(1.05); }
+    .villa-main-image { width: 100%; height: 450px; object-fit: cover; transform: scale(1); transition: transform 0.5s ease; }
 
-    .villa-content {
-        padding: 2.5rem 3rem;
-    }
+    .villa-content { padding: 2.5rem 3rem; }
 
     .villa-title {
-        font-weight: 700;
-        font-size: 2.5rem;
-        color: #2c3e50;
+        font-weight: 700; font-size: 2.5rem;
+        color: var(--text-primary); /* Warna judul diubah */
     }
 
     .villa-location {
         font-size: 1.1rem;
-        color: #7f8c8d;
+        color: var(--accent-primary); /* Warna lokasi diubah */
         margin-bottom: 1.5rem;
     }
 
     .info-section h3 {
-        font-weight: 600;
-        font-size: 1.5rem;
-        color: #34495e;
-        margin-bottom: 1.5rem;
-        position: relative;
-        padding-bottom: 0.75rem;
+        font-weight: 600; font-size: 1.5rem;
+        color: var(--text-primary); /* Warna sub-judul diubah */
+        position: relative; padding-bottom: 0.75rem; margin-bottom: 1.5rem;
     }
 
     .info-section h3::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 50px;
-        height: 3px;
-        background: linear-gradient(90deg, #00c6ff, #0072ff);
+        content: ''; position: absolute; bottom: 0; left: 0;
+        width: 50px; height: 3px;
+        background: var(--accent-secondary); /* Border bawah judul diubah */
         border-radius: 3px;
     }
 
     .info-item {
-        display: flex;
-        justify-content: space-between;
+        display: flex; justify-content: space-between;
         padding: 0.85rem 0;
-        border-bottom: 1px solid #ecf0f1;
+        border-bottom: 1px solid #eef0ed; /* Border diubah menjadi lebih lembut */
         font-size: 1rem;
     }
     .info-item:last-child { border-bottom: none; }
-    .info-item .label { color: #7f8c8d; }
-    .info-item .value { color: #2c3e50; font-weight: 500; }
+    .info-item .label { color: var(--accent-primary); } /* Warna label diubah */
+    .info-item .value { color: var(--text-primary); font-weight: 500; } /* Warna value diubah */
     
     .facility-item {
-        background-color: #f8f9fa;
-        border: 1px solid #e9ecef;
-        border-radius: 12px;
-        padding: 1rem;
-        text-align: center;
-        transition: all 0.3s ease;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        background-color: var(--accent-light); /* Latar fasilitas diubah */
+        border: 1px solid #e0e6e3;
+        border-radius: 12px; padding: 1rem; text-align: center;
+        transition: all 0.3s ease; height: 100%;
+        display: flex; flex-direction: column;
+        justify-content: center; align-items: center;
     }
     
     .facility-item:hover {
         transform: translateY(-8px);
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: var(--accent-primary);
     }
     
-    .facility-item img {
-        width: 115px;
-        height: 115px;
-        /* object-fit: contain; */
-        margin-bottom: 0.25rem;
-    }
-    
-    .facility-item p {
-        font-weight: 500;
-        color: #34495e;
-        margin-bottom: 0;
-        font-size: 0.9rem;
-    }
+    .facility-item img { width: 115px; height: 115px; margin-bottom: 0.25rem; }
+    .facility-item p { font-weight: 500; color: var(--text-primary); margin-bottom: 0; font-size: 0.9rem; }
     
     .map-container {
-        border-radius: 15px;
-        overflow: hidden;
-        height: 400px;
+        border-radius: 15px; overflow: hidden; height: 400px;
         border: 1px solid #dee2e6;
     }
     .map-container iframe { width: 100%; height: 100%; border: 0; }
     
     .booking-card {
-        position: sticky;
-        top: 20px;
+        position: sticky; top: 20px;
         border-radius: 15px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
     
     .whatsapp-button {
-        background: linear-gradient(45deg, #25d366, #2ecc71);
+        background: var(--text-primary); /* Tombol WA diubah */
         color: white;
-        font-weight: 600;
-        padding: 1rem;
-        border-radius: 12px;
-        text-decoration: none;
+        font-weight: 600; padding: 1rem;
+        border-radius: 12px; text-decoration: none;
         transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex; align-items: center; justify-content: center;
         font-size: 1.1rem;
-        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-        animation: pulse 2s infinite;
+        box-shadow: 0 4px 15px rgba(59, 98, 85, 0.3);
+        animation: pulse 2.5s infinite;
     }
     
     .whatsapp-button:hover {
+        background: #2c5046; /* Versi lebih gelap */
         transform: translateY(-5px);
-        box-shadow: 0 7px 20px rgba(37, 211, 102, 0.4);
+        box-shadow: 0 7px 20px rgba(59, 98, 85, 0.4);
         animation: none;
     }
 
     @keyframes pulse {
-        0% { box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
-        50% { box-shadow: 0 4px 25px rgba(37, 211, 102, 0.5); }
-        100% { box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        0% { box-shadow: 0 4px 15px rgba(59, 98, 85, 0.3); }
+        50% { box-shadow: 0 4px 25px rgba(59, 98, 85, 0.5); }
+        100% { box-shadow: 0 4px 15px rgba(59, 98, 85, 0.3); }
     }
 </style>
 @endpush
@@ -227,7 +179,7 @@
                     @endif
                 </div>
             @else
-                <img src="https://placehold.co/1200x600/E0F7FA/333?text=Gambar+Tidak+Tersedia" class="villa-main-image" alt="Gambar tidak tersedia">
+                <img src="https://placehold.co/1200x600/E2DFDA/3B6255?text=Gambar+Tidak+Tersedia" class="villa-main-image" alt="Gambar tidak tersedia">
             @endif
         </div>
 
@@ -282,18 +234,18 @@
                 <div class="col-lg-4">
                     <div class="card booking-card" data-aos="fade-left" data-aos-delay="500">
                         <div class="card-body">
-                            <h4 class="card-title text-center mb-3">Harga & Booking</h4>
+                            <h4 class="card-title text-center mb-3" style="color: var(--text-primary);">Harga & Booking</h4>
                             <div class="info-item border-0">
                                 <span class="label">Harga Weekday</span>
-                                <span class="value text-success">Rp. {{ number_format($dataVilla->harga_weekday, 0, ',', '.') }}</span>
+                                <span class="value" style="color: var(--text-primary);">Rp. {{ number_format($dataVilla->harga_weekday, 0, ',', '.') }}</span>
                             </div>
-                            <div class="info-item border-secondary">
+                            <div class="info-item">
                                 <span class="label">Nego Weekday</span>
                                 <span class="value">{{ $dataVilla->nego_weekday ? 'Bisa' : 'Tidak Bisa' }}</span>
                             </div>
                             <div class="info-item border-0">
                                 <span class="label">Harga Weekend</span>
-                                <span class="value text-success">Rp. {{ number_format($dataVilla->harga_weekend, 0, ',', '.') }}</span>
+                                <span class="value" style="color: var(--text-primary);">Rp. {{ number_format($dataVilla->harga_weekend, 0, ',', '.') }}</span>
                             </div>
                             <div class="info-item border-0">
                                 <span class="label">Nego Weekend</span>
