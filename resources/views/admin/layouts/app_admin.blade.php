@@ -114,6 +114,9 @@
     .bd-mode-toggle .dropdown-menu .active .bi {
       display: block !important
     }
+    .container-fluid > .row {
+    min-height: calc(120vh - 56px); /* 56px adalah perkiraan tinggi header atas Anda */
+  }
   </style>
   @stack('styles')
 </head>
