@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -95,7 +96,7 @@ class AdminController extends Controller
             'map_embed' => $request->map_embed,
             'nomor_wa' => $request->nomor_wa,
         ]);
-        return redirect('/admin-dashboard');
+        return redirect('/admin-dashboard')->with('success', 'Villa Added successfully');;
     }
 
     public function editVillaAdminPage($slug)
@@ -131,15 +132,15 @@ class AdminController extends Controller
             foreach ($request->fasilitas as $key => $item) {
                 $image = $fasilitas[$key]['foto'] ?? null;
 
-                // if (isset($item['foto']) && $item['foto'] instanceof UploadedFile) {
-                if ($image) {
-                    Storage::disk('public')->delete('/uploads/fasilitas/' . $image);
-                }
+                if (isset($item['foto']) && $item['foto'] instanceof UploadedFile) {
+                    if ($image) {
+                        Storage::disk('public')->delete('/uploads/fasilitas/' . $image);
+                    }
 
-                $filename = 'fasilitas' . time() . '_' . Str::random(5) . '.' . $item['foto']->extension();
-                $item['foto']->storeAs('uploads/fasilitas', $filename, 'public');
-                $image = $filename;
-                // }
+                    $filename = 'fasilitas' . time() . '_' . Str::random(5) . '.' . $item['foto']->extension();
+                    $item['foto']->storeAs('uploads/fasilitas', $filename, 'public');
+                    $image = $filename;
+                }
 
                 $newFasilitas[] = [
                     'nama' => $item['nama'],
@@ -168,11 +169,6 @@ class AdminController extends Controller
         return redirect('/admin-dashboard')->with('success', 'Villa updated successfully');
     }
 
-    public function edit(Villa $villa)
-    {
-        return view('admin.edit_villa', compact('villa'));
-    }
-
     public function deleteVillaAdmin($slug)
     {
         $dataVilla = Villa::where('slug', $slug)->first();
@@ -198,6 +194,6 @@ class AdminController extends Controller
             }
         }
         $dataVilla->delete();
-        return redirect('/admin-dashboard')->with(['Villa deleted successfully.'], 201);
+        return redirect('/admin-dashboard')->with('success', 'Villa Deleted successfully');
     }
 }

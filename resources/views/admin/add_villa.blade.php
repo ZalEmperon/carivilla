@@ -117,8 +117,10 @@
             <button type="button" class="btn btn-secondary btn-sm mt-2" id="addFasilitas">+ Tambah Fasilitas</button>
           </div>
 
-          <button type="submit" class="btn btn-primary">Simpan Villa</button>
-          <a href="/admin-dashboard" class="btn btn-secondary ms-2">Batal</a>
+          <div class="mb-5">
+            <button type="submit" class="btn btn-primary">Simpan Villa</button>
+            <a href="/admin-dashboard" class="btn btn-secondary ms-2">Batal</a>
+          </div>
         </form>
 
       </main>
