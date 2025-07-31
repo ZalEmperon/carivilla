@@ -149,10 +149,10 @@ class DatabaseSeeder extends Seeder
         foreach ($data as $villa) {
             Villa::create($villa);
         }
-        User::create([
-            'username' => "Gato",
-            'password' => Hash::make("gatovilla"),
-            'role' => 'admin',
-        ]);
+        // User::create([
+        //     'username' => "Gato",
+        //     'password' => Hash::make("gatovilla"),
+        //     'role' => 'admin',
+        // ]);
     }
 }

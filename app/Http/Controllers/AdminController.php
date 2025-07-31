@@ -112,29 +112,42 @@ class AdminController extends Controller
             return back()->with('error', 'Villa not found.');
         }
 
-        $fotoSlider = $dataVilla->foto_slider;
-        if ($request->hasFile('foto_slider')) {
-            foreach ($fotoSlider as $oldImage) {
-                Storage::disk('public')->delete('/uploads/villas/' . $oldImage);
+        $existingSlider = $request->input('existing_slider_images', []);
+        $oldSlider = $dataVilla->foto_slider;
+        
+        foreach ($oldSlider as $oldImage) {
+            if (!in_array($oldImage, $existingSlider)) {
+                Storage::disk('public')->delete('uploads/villas/' . $oldImage);
             }
-
-            $fotoSlider = [];
+        }
+        
+        $fotoSlider = $existingSlider;
+        
+        if ($request->hasFile('foto_slider')) {
             foreach ($request->file('foto_slider') as $file) {
                 $filename = 'villa' . time() . '_' . Str::random(5) . '.' . $file->extension();
                 $file->storeAs('uploads/villas', $filename, 'public');
                 $fotoSlider[] = $filename;
             }
         }
+        
+        $removedFacilityImages = $request->input('removed_fasilitas_images', []);
+        foreach ($removedFacilityImages as $image) {
+            Storage::disk('public')->delete('uploads/fasilitas/' . $image);
+        }
 
-        $fasilitas = $dataVilla->fasilitas;
+        $fasilitas = [];
         if ($request->fasilitas) {
-            $newFasilitas = [];
             foreach ($request->fasilitas as $key => $item) {
-                $image = $fasilitas[$key]['foto'] ?? null;
+                $image = $item['old_image'] ?? null;
+                
+                if ($image && in_array($image, $removedFacilityImages)) {
+                    continue;
+                }
 
                 if (isset($item['foto']) && $item['foto'] instanceof UploadedFile) {
                     if ($image) {
-                        Storage::disk('public')->delete('/uploads/fasilitas/' . $image);
+                        Storage::disk('public')->delete('uploads/fasilitas/' . $image);
                     }
 
                     $filename = 'fasilitas' . time() . '_' . Str::random(5) . '.' . $item['foto']->extension();
@@ -142,12 +155,11 @@ class AdminController extends Controller
                     $image = $filename;
                 }
 
-                $newFasilitas[] = [
+                $fasilitas[] = [
                     'nama' => $item['nama'],
                     'foto' => $image
                 ];
             }
-            $fasilitas = $newFasilitas;
         }
 
         $dataVilla->update([

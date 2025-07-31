@@ -150,6 +150,13 @@
 @endpush
 
 @section('content')
+@if (session('error'))
+    <div class="vh-100 position-relative" role="alert">
+        <div class="position-absolute top-50 start-50 translate-middle fw-bold">
+            {{ session('error') }}
+        </div>
+    </div>
+@elseif(!empty($dataVilla))
 <main class="container py-4">
     <div class="villa-detail-container">
         <div class="position-relative">
@@ -266,6 +273,7 @@
         </div>
     </div>
 </main>
+@endif
 @endsection
 
 @push('scripts')

@@ -21,7 +21,7 @@
           </div>
         @endif
 
-        <form action="/admin-edit" method="POST" enctype="multipart/form-data">
+        <form action="/admin-edit" method="POST" enctype="multipart/form-data" id="edit-villa-form">
           @csrf
           @method('PUT')
           <input type="hidden" id="slug" name="slug" value="{{ old('slug', $dataVilla->slug) }}">
@@ -102,6 +102,7 @@
             <div class="row">
               @foreach ($dataVilla->foto_slider as $image)
                 <div class="col-md-2 mb-2 position-relative">
+                  <input type="hidden" name="existing_slider_images[]" value="{{ $image }}">
                   <img src="{{ asset('storage/uploads/villas/' . $image) }}" class="img-thumbnail"
                     style="height: 100px; width: 100%; object-fit: cover;">
                   <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-image"
@@ -133,15 +134,16 @@
                       @if ($fasilitas['foto'])
                         <img src="{{ asset('storage/uploads/fasilitas/' . $fasilitas['foto']) }}"
                           class="img-thumbnail me-2" style="height: 40px;">
+                        <input type="hidden" name="fasilitas[{{ $index }}][old_image]"
+                          value="{{ $fasilitas['foto'] }}" class="old-image-input">
                       @endif
                       <input type="file" name="fasilitas[{{ $index }}][foto]" class="form-control"
                         accept="image/*">
-                      <input type="hidden" name="fasilitas[{{ $index }}][old_image]"
-                        value="{{ $fasilitas['foto'] }}">
                     </div>
                   </div>
                   <div class="col-md-2">
-                    <button type="button" class="btn btn-danger btn-sm remove-fasilitas">&times;</button>
+                    <button type="button" class="btn btn-danger btn-sm remove-fasilitas"
+                      data-image="{{ $fasilitas['foto'] ?? '' }}">&times;</button>
                   </div>
                 </div>
               @endforeach
@@ -183,18 +185,30 @@
 
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('remove-fasilitas')) {
+        const image = e.target.dataset.image;
+        const editForm = document.getElementById('edit-villa-form');
+
+        if (image) {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = 'removed_fasilitas_images[]';
+          input.value = image;
+          editForm.appendChild(input);
+        }
+
         e.target.closest('.fasilitas-item').remove();
       }
 
       if (e.target.classList.contains('remove-image')) {
         const image = e.target.dataset.image;
         const type = e.target.dataset.type;
+        const editForm = document.getElementById('edit-villa-form');
 
         const input = document.createElement('input');
         input.type = 'hidden';
         input.name = `removed_${type}_images[]`;
         input.value = image;
-        document.querySelector('form').appendChild(input);
+        editForm.appendChild(input);
 
         e.target.closest('.col-md-2').remove();
       }

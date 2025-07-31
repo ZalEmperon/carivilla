@@ -21,6 +21,9 @@ class VillaController extends Controller
     public function showDetailVilla($slug)
     {
         $dataVilla = Villa::where('slug', $slug)->first();
+        if (!$dataVilla) {
+            return redirect()->back()->with('error', 'Villa not found.');
+        }
         return view('guest.detail_villa', compact('dataVilla'));
     }
 }
